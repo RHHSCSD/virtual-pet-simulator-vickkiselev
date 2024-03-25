@@ -33,37 +33,50 @@ public class VirtualPet {
 "            |  ,-.    ,-'          |  /\n" +
 "            |  | (   |             | /\n" +
 "            )  |  \\  `.___________|/\n" +
-"            `--'   `--'");
+"            `--'   `--'\n");
         
-        System.out.println("\n         1. START   2. INSTRUCTIONS  3. EXIT");
+        System.out.print("Enter username: ");
+        String username = kb.nextLine();
         
-        System.out.print("Enter next action: ");
+        System.out.print("Enter password: ");
+        String password = kb.nextLine();
         
-        switch (kb.nextLine()){
-            case "1":
-            case "Start":
-                System.out.println("Choose an animal:\nCat\nBudgie\nRaccoon");
-                String animal = kb.nextLine();
-                System.out.print("Are you certain? ");
-                switch (kb.nextLine()) {
-                    case "yes":
-                        System.out.println("Your chosen animal is " + animal);
-                        break;
-                    case "no":
-                        System.exit(0);
-                        break;
-                }
-                break;
-            case "2":
-            case "Instructions":
-                System.out.print("Instructions!!");
-                break;
-            case "3":  
-            case "Exit":
-                System.exit(0);
-                break;
+        if ((username.equals("snoopy"))&&(password.equals("toto"))){
+        
+            System.out.println("\n         1. START   2. INSTRUCTIONS  3. EXIT\n");
+
+            System.out.print("Enter next action: ");
+
+            switch (kb.nextLine()){
+                case "1":
+                case "Start":
+                    System.out.println("Choose an animal:\nCat\nBudgie\nRaccoon");
+                    String animal = kb.nextLine();
+                    System.out.print("Are you certain? ");
+                    switch (kb.nextLine()) {
+                        case "yes":
+                            System.out.println("Your chosen animal is " + animal);
+                            break;
+                        case "no":
+                            System.exit(0);
+                            break;
+                    }
+                    break;
+                case "2":
+                case "Instructions":
+                    System.out.print("Instructions!!");
+                    break;
+                case "3":  
+                case "Exit":
+                    System.exit(0);
+                    break;
+            }
         }
-        
+        else {
+            System.out.print("INCORRECT");
+            System.exit(0);
+        }
+              
     }
     
 }
