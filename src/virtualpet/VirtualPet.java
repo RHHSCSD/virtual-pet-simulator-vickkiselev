@@ -20,6 +20,12 @@ public class VirtualPet {
     public static void main(String[] args) {
         // TODO code application logic here
         
+        String constantList = "bcdfghjklmnpqrstvwxyz";
+        String vowelList = "aeiou";
+        
+        final String correctUser = "snoopy";
+        final String correctPass = "toto";
+        
         Scanner kb = new Scanner(System.in);
         
         System.out.print("                             ,\n" +
@@ -41,7 +47,7 @@ public class VirtualPet {
         System.out.print("Enter password: ");
         String password = kb.nextLine();
         
-        if ((username.equals("snoopy"))&&(password.equals("toto"))){
+        if ((username.equals(correctUser))&&(password.equals(correctPass))){
         
             System.out.println("\n         1. START   2. INSTRUCTIONS  3. EXIT\n");
 
@@ -56,11 +62,26 @@ public class VirtualPet {
                     switch (kb.nextLine()) {
                         case "yes":
                             System.out.println("Your chosen animal is " + animal);
+                            
+                            System.out.println("1. SELECT NAME           2.RANDOM NAME");
+                            switch(kb.nextLine()){
+                                case "1":
+                                case "Select":
+                                    System.out.print("Enter name: ");
+                                    String name = kb.nextLine();
+                                    break;
+                                case "2":
+                                case "Random":
+                                    
+                                    break;
+                            }
+                            
                             break;
                         case "no":
                             System.exit(0);
                             break;
                     }
+                    
                     break;
                 case "2":
                 case "Instructions":
