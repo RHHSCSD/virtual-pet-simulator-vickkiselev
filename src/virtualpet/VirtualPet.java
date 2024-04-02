@@ -25,7 +25,7 @@ public class VirtualPet {
         final String correctUser = "snoopy";
         final String correctPass = "toto";
         
-        string name = "";
+        String name = "";
 
         Scanner kb = new Scanner(System.in);
         Random r = new Random();
@@ -70,7 +70,7 @@ public class VirtualPet {
                                 case "1":
                                 case "Select":
                                     System.out.print("Enter name: ");
-                                    String name = kb.nextLine();
+                                    name = kb.nextLine();
                                     break;
                                 case "2":
                                 case "Random":
@@ -90,11 +90,14 @@ public class VirtualPet {
                                     }
                                     break;
                             }
-                            System.out.print("You pet's name is: " + name);
+                            System.out.println("You pet's name is: " + name);
                             
+                            int healthMax = r.nextInt(0,21);
+                            int foodMax = r.nextInt(0,21-healthMax);
+                            int energyMax = 20 - healthMax - foodMax;
                             
-                            
-                            
+                            System.out.print("STATS:\nMax health: "+healthMax+("\nMax food: "+foodMax+"\nMax energy: "+energyMax));
+                                
                             break;
                         case "no":
                             System.exit(0);
