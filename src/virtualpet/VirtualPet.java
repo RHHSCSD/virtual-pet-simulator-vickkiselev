@@ -90,7 +90,7 @@ public class VirtualPet {
                                     }
                                     break;
                             }
-                            System.out.print("You pet's name is: " + randomName);
+                            System.out.print("You pet's name is: " + name);
                             
                             
                             
