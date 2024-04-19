@@ -5,6 +5,7 @@
 package virtualpet;
 
 import java.util.*;
+import javax.swing.JOptionPane;
 
 /*
 Program: Pet Simulator
@@ -16,11 +17,9 @@ public class VirtualPet {
     /**
      * @param args the command line arguments
      */
-    
     /*
     ----Methods-------------------------------------------------------------------------------------------------------------------------------------
      */
-    
     public static String randNamer() {
         Scanner kb = new Scanner(System.in);
         Random r = new Random();
@@ -45,8 +44,29 @@ public class VirtualPet {
 
         return name;
     }
-    
-    
+
+    public static void loginOutput() {
+            
+            final String correctUser = "snoopy";
+            final String correctPass = "toto";
+            
+            for (int i = 0; i < 3; i++) {
+                String username = JOptionPane.showInputDialog("Enter username:");
+                String password = JOptionPane.showInputDialog("Enter password:");
+                System.out.print("Enter password: ");
+
+                if ((username.equals(correctUser)) && (password.equals(correctPass))) {
+                    System.out.println("Correct.\n");
+                    break;
+                } else {
+                    if (i == 2) {
+                        System.exit(0);
+                    }
+                    System.out.println("Incorrect. Try again");
+                }
+            }
+        }
+  
 
     /*
     -------------------------------------------------------------------------------------------------------------------------------------------------
@@ -61,12 +81,10 @@ public class VirtualPet {
         String vowelList = "aeiou";
         String guessedList = "";
 
-        final String correctUser = "snoopy";
-        final String correctPass = "toto";
+        final String baseWord = "abcde";
 
         String animal = "";
         String name = "";
-        String baseWord = "abcde";
         String randWord = "";
         String revealedWord = "";
 
@@ -96,24 +114,9 @@ public class VirtualPet {
                 + "            )  |  \\  `.___________|/\n"
                 + "            `--'   `--'\n");
 
-        for (int i = 0; i < 3; i++) {
-            System.out.print("Enter username: ");
-            String username = kb.nextLine();
-
-            System.out.print("Enter password: ");
-            String password = kb.nextLine();
-
-            if ((username.equals(correctUser)) && (password.equals(correctPass))) {
-                System.out.println("Correct.\n");
-                break;
-            } else {
-                if (i == 2) {
-                    System.exit(0);
-                }
-                System.out.println("Incorrect. Try again");
-            }
-        }
-
+       
+        loginOutput();
+        
         while (exitCase == false) {
             if (animalCreated == false) {
                 System.out.println("\n         1. START   2. INSTRUCTIONS  3. EXIT\n");
@@ -165,7 +168,7 @@ public class VirtualPet {
                         }
                     } else {
                         // Guessing number game
-                        int randNum = r.nextInt(0,11);
+                        int randNum = r.nextInt(0, 11);
                         System.out.println("Enter your guesses:");
 
                         for (int i = 0; i < 11; i++) {
@@ -186,10 +189,10 @@ public class VirtualPet {
                         moneyCount = pointAmount1 * 100;
                         System.out.println("You have earned $" + moneyCount + " so far.");
                         kb.nextLine();
-                        
+
                         // Letter pairs
                         while (randWord.length() < 5) {
-                            int randInt = r.nextInt(0,5);
+                            int randInt = r.nextInt(0, 5);
                             char randChar = baseWord.charAt(randInt);
                             if (randWord.indexOf(randChar) == -1) {
                                 randWord += randChar;
@@ -206,8 +209,7 @@ public class VirtualPet {
                                 continue;
                             }
                         }
-                        
-                        System.out.print(randWord);
+
                         System.out.println("Enter your guesses in the format of (x,y):");
 
                         for (int i = 0; i < 13; i++) {
@@ -217,9 +219,9 @@ public class VirtualPet {
 
                             String letterGuess = kb.nextLine();
 
-                            int letter1 =  letterGuess.charAt(1)-48;
-                            int letter2 = letterGuess.charAt(3)-48;
-                            
+                            int letter1 = letterGuess.charAt(1) - 48;
+                            int letter2 = letterGuess.charAt(3) - 48;
+
                             if (randWord.charAt(letter1) == randWord.charAt(letter2)) {
                                 guessedList = guessedList + randWord.charAt(letter1);
                                 System.out.println("Correct! The revealed word is:");
