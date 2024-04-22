@@ -6,6 +6,8 @@ package virtualpet;
 
 import java.util.*;
 import javax.swing.JOptionPane;
+import java.lang.Exception;
+import java.io.*;
 
 /*
 Program: Pet Simulator
@@ -45,52 +47,126 @@ public class VirtualPet {
         return name;
     }
 
-    public static void loginOutput() {
-            
-            final String correctUser = "snoopy";
-            final String correctPass = "toto";
-            
-            for (int i = 0; i < 3; i++) {
-                String username = JOptionPane.showInputDialog("Enter username:");
-                String password = JOptionPane.showInputDialog("Enter password:");
-                System.out.print("Enter password: ");
 
-                if ((username.equals(correctUser)) && (password.equals(correctPass))) {
-                    System.out.println("Correct.\n");
-                    break;
-                } else {
-                    if (i == 2) {
-                        System.exit(0);
-                    }
-                    System.out.println("Incorrect. Try again");
-                }
+    public static int numberGame() {
+        Scanner kb = new Scanner(System.in);
+        Random r = new Random();
+
+        int randNum = r.nextInt(0, 11);
+        int points = 0;
+        System.out.println("Enter your guesses:");
+
+        for (int i = 0; i < 11; i++) {
+
+            int numGuess = kb.nextInt();
+
+            if (numGuess == randNum) {
+                points = 10 - i;
+                System.out.println("Correct!");
+                break;
+            } else if ((numGuess != randNum) && (i == 10)) {
+                System.out.println("Incorrect. You have not guessed the number.");
+                points = 0;
+            } else {
+                System.out.println("Incorrect. Guess again.");
             }
         }
-  
+
+        return points;
+    }
+
+    public static int letterPairs() {
+        Scanner kb = new Scanner(System.in);
+        Random r = new Random();
+
+        String constantList = "bcdfghjklmnpqrstvwxyz";
+        String vowelList = "aeiou";
+
+        String guessedList = "";
+
+        final String baseWord = "abcde";
+
+        String randWord = "";
+        String revealedWord = "";
+
+        int points = 0;
+
+        while (randWord.length() < 5) {
+            int randInt = r.nextInt(0, 5);
+            char randChar = baseWord.charAt(randInt);
+            if (randWord.indexOf(randChar) == -1) {
+                randWord += randChar;
+            } else {
+                continue;
+            }
+        }
+        while (randWord.length() < 10) {
+            int randInt = r.nextInt(0, 5);
+            char randChar = baseWord.charAt(randInt);
+            if (randWord.lastIndexOf(randChar) < 5) {
+                randWord += randChar;
+            } else {
+                continue;
+            }
+        }
+
+        System.out.println("Enter your guesses in the format of (x,y):");
+
+        System.out.println(randWord);
+
+        for (int i = 0; i < 13; i++) {
+
+            // reset the revealed word each iteration
+            revealedWord = "";
+
+            String letterGuess = kb.nextLine();
+
+            int letter1 = letterGuess.charAt(1) - 48;
+            int letter2 = letterGuess.charAt(3) - 48;
+
+            if (randWord.charAt(letter1) == randWord.charAt(letter2)) {
+                guessedList = guessedList + randWord.charAt(letter1);
+                System.out.println("Correct! The revealed word is:");
+            } else {
+                points = 20 - i;
+                System.out.println("Inorrect. The revealed word is:");
+            }
+            for (int j = 0; j < 10; j++) {
+                if (guessedList.indexOf(randWord.charAt(j)) == -1) {
+                    revealedWord += "X";
+                } else {
+                    revealedWord += randWord.charAt(j);
+                }
+            }
+
+            System.out.println(revealedWord);
+
+            if (guessedList.length() == 5) {
+                break;
+            }
+
+        }
+        return points;
+    }
+
 
     /*
     -------------------------------------------------------------------------------------------------------------------------------------------------
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-
+    public static void main(String[] args) throws Exception {
         /*
         ----Variables--------------------------------------------------------------------------------------------------------------------------------
          */
         String constantList = "bcdfghjklmnpqrstvwxyz";
         String vowelList = "aeiou";
-        String guessedList = "";
-
-        final String baseWord = "abcde";
 
         String animal = "";
         String name = "";
-        String randWord = "";
-        String revealedWord = "";
+        String username = "";
+        String userFile = "";
+        String password = "";
 
         int moneyCount = 0;
-        int pointAmount1 = 0;
-        int pointAmount2 = 0;
 
         boolean exitCase = false;
         boolean animalCreated = false;
@@ -114,9 +190,18 @@ public class VirtualPet {
                 + "            )  |  \\  `.___________|/\n"
                 + "            `--'   `--'\n");
 
-       
-        loginOutput();
         
+        for (int i = 0; i < 3; i++) {
+            username = JOptionPane.showInputDialog("Enter username:");
+            password = JOptionPane.showInputDialog("Enter password:");
+            
+            userFile = username+".txt";
+            
+            if (userFile.exists() == true){
+                
+            }
+        }
+
         while (exitCase == false) {
             if (animalCreated == false) {
                 System.out.println("\n         1. START   2. INSTRUCTIONS  3. EXIT\n");
@@ -168,82 +253,11 @@ public class VirtualPet {
                         }
                     } else {
                         // Guessing number game
-                        int randNum = r.nextInt(0, 11);
-                        System.out.println("Enter your guesses:");
-
-                        for (int i = 0; i < 11; i++) {
-
-                            int numGuess = kb.nextInt();
-
-                            if (numGuess == randNum) {
-                                pointAmount1 = 10 - i;
-                                System.out.println("Correct!");
-                                break;
-                            } else if ((numGuess != randNum) && (i == 10)) {
-                                System.out.println("Incorrect. You have not guessed the number.");
-                                pointAmount1 = 0;
-                            } else {
-                                System.out.println("Incorrect. Guess again.");
-                            }
-                        }
-                        moneyCount = pointAmount1 * 100;
+                        moneyCount = numberGame() * 100;
                         System.out.println("You have earned $" + moneyCount + " so far.");
-                        kb.nextLine();
 
                         // Letter pairs
-                        while (randWord.length() < 5) {
-                            int randInt = r.nextInt(0, 5);
-                            char randChar = baseWord.charAt(randInt);
-                            if (randWord.indexOf(randChar) == -1) {
-                                randWord += randChar;
-                            } else {
-                                continue;
-                            }
-                        }
-                        while (randWord.length() < 10) {
-                            int randInt = r.nextInt(0, 5);
-                            char randChar = baseWord.charAt(randInt);
-                            if (randWord.lastIndexOf(randChar) < 5) {
-                                randWord += randChar;
-                            } else {
-                                continue;
-                            }
-                        }
-
-                        System.out.println("Enter your guesses in the format of (x,y):");
-
-                        for (int i = 0; i < 13; i++) {
-
-                            // reset the revealed word each iteration
-                            revealedWord = "";
-
-                            String letterGuess = kb.nextLine();
-
-                            int letter1 = letterGuess.charAt(1) - 48;
-                            int letter2 = letterGuess.charAt(3) - 48;
-
-                            if (randWord.charAt(letter1) == randWord.charAt(letter2)) {
-                                guessedList = guessedList + randWord.charAt(letter1);
-                                System.out.println("Correct! The revealed word is:");
-                            } else {
-                                pointAmount2 = 20 - i;
-                                System.out.println("Inorrect. The revealed word is:");
-                            }
-                            for (int j = 0; j < 10; j++) {
-                                if (guessedList.indexOf(randWord.charAt(j)) == -1) {
-                                    revealedWord += "X";
-                                } else {
-                                    revealedWord += randWord.charAt(letter1);
-                                }
-                            }
-
-                            System.out.println(revealedWord);
-
-                            if (guessedList.length() == 5) {
-                                break;
-                            }
-                        }
-                        moneyCount = moneyCount + pointAmount2 * 100;
+                        moneyCount = moneyCount + letterPairs() * 100;
                         System.out.println("Thank you for playing, you earned $" + moneyCount + ".");
                     }
                     break;
