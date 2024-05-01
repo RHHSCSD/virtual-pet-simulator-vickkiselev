@@ -22,7 +22,7 @@ public class VirtualPet {
     /*
     ----Methods-------------------------------------------------------------------------------------------------------------------------------------
      */
-    public static String randNamer() {
+    public static String namedRand() {
         Scanner kb = new Scanner(System.in);
         Random r = new Random();
 
@@ -32,13 +32,17 @@ public class VirtualPet {
         String name = "" + constantList.charAt(r.nextInt(0, 21));
         name = name.toUpperCase();
 
+        // Shoeeses a random characters
         for (int i = 0; i < 5; i++) {
+            // Character from a vowel list if the iteration number is even 
             if (i % 2 == 0) {
                 char extraVowel = vowelList.charAt(r.nextInt(0, 5));
                 name = name + extraVowel;
+                //If a random integer is 1, it will use a double vowel
                 if (r.nextInt(0, 2) == 1) {
                     name = name + extraVowel;
                 }
+                // Odd iterations will select a random constant
             } else {
                 name = name + constantList.charAt(r.nextInt(0, 21));
             }
@@ -46,7 +50,6 @@ public class VirtualPet {
 
         return name;
     }
-
 
     public static int numberGame() {
         Scanner kb = new Scanner(System.in);
@@ -56,10 +59,12 @@ public class VirtualPet {
         int points = 0;
         System.out.println("Enter your guesses:");
 
+        // The user has 10 guesses to guess the number before the game ends
         for (int i = 0; i < 11; i++) {
 
             int numGuess = kb.nextInt();
 
+            // Correct if guess is the random number, subtracts points if incorrect
             if (numGuess == randNum) {
                 points = 10 - i;
                 System.out.println("Correct!");
@@ -75,7 +80,7 @@ public class VirtualPet {
         return points;
     }
 
-    public static int letterPairs() {
+    public static int makeRandWord() {
         Scanner kb = new Scanner(System.in);
         Random r = new Random();
 
@@ -91,6 +96,7 @@ public class VirtualPet {
 
         int points = 0;
 
+        // Generates a string in two parts using the base word and randomizing the order of the letters
         while (randWord.length() < 5) {
             int randInt = r.nextInt(0, 5);
             char randChar = baseWord.charAt(randInt);
@@ -112,11 +118,10 @@ public class VirtualPet {
 
         System.out.println("Enter your guesses in the format of (x,y):");
 
-        System.out.println(randWord);
-
+        // 12 guessed to guess the correct pairings
         for (int i = 0; i < 13; i++) {
 
-            // reset the revealed word each iteration
+            // Reset the revealed word each iteration
             revealedWord = "";
 
             String letterGuess = kb.nextLine();
@@ -124,6 +129,7 @@ public class VirtualPet {
             int letter1 = letterGuess.charAt(1) - 48;
             int letter2 = letterGuess.charAt(3) - 48;
 
+            // If the letters of each guessed index are the same, it is a correct guess. Otherwise, points are subtracted
             if (randWord.charAt(letter1) == randWord.charAt(letter2)) {
                 guessedList = guessedList + randWord.charAt(letter1);
                 System.out.println("Correct! The revealed word is:");
@@ -131,6 +137,7 @@ public class VirtualPet {
                 points = 20 - i;
                 System.out.println("Inorrect. The revealed word is:");
             }
+            // Print an X for each letter in the word unless the letter has already been guessed
             for (int j = 0; j < 10; j++) {
                 if (guessedList.indexOf(randWord.charAt(j)) == -1) {
                     revealedWord += "X";
@@ -141,12 +148,34 @@ public class VirtualPet {
 
             System.out.println(revealedWord);
 
+            // If all letters have been guessed, exit the loop
             if (guessedList.length() == 5) {
                 break;
             }
 
         }
         return points;
+    }
+
+    public static int[] generateStats() {
+
+        Random r = new Random();
+
+        int healthMax = r.nextInt(5, 8);
+        int foodMax = r.nextInt(5, 8);
+        int energyMax = 20 - healthMax - foodMax;
+
+        int[] generatedStats = new int[3];
+
+        generatedStats[0] = healthMax;
+        generatedStats[1] = foodMax;
+        generatedStats[2] = energyMax;
+
+        return generatedStats;
+    }
+
+    public static void createSaveFile(String[] stats) throws Exception {
+
     }
 
 
@@ -163,7 +192,6 @@ public class VirtualPet {
         String animal = "";
         String name = "";
         String username = "";
-        String userFile = "";
         String password = "";
 
         int moneyCount = 0;
@@ -190,15 +218,30 @@ public class VirtualPet {
                 + "            )  |  \\  `.___________|/\n"
                 + "            `--'   `--'\n");
 
-        
-        for (int i = 0; i < 3; i++) {
-            username = JOptionPane.showInputDialog("Enter username:");
-            password = JOptionPane.showInputDialog("Enter password:");
-            
-            userFile = username+".txt";
-            
-            if (userFile.exists() == true){
-                
+        username = JOptionPane.showInputDialog("Enter username:");
+        File userFile = new File(username + ".txt");
+
+        if (userFile.exists() == true) {
+            animalCreated = true;
+            for (int i = 0; i < 3; i++) {
+                password = JOptionPane.showInputDialog("Enter password:");
+                try {
+                    Scanner input = new Scanner(userFile);
+                    String correctPassword = input.nextLine();
+
+                    if (password.equals(correctPassword) == true) {
+                        break;
+                    } else {
+                        JOptionPane.showMessageDialog(null,"The password is incorrect.");
+                    }
+
+                } catch (Exception e) {
+                    PrintWriter toFile = new PrintWriter (userFile);
+                    
+                    password = JOptionPane.showInputDialog("Enter new password:");
+                    
+                    
+                }
             }
         }
 
@@ -234,16 +277,14 @@ public class VirtualPet {
                                         break;
                                     case "2":
                                     case "Random":
-                                        name = randNamer();
+                                        name = namedRand();
                                         break;
                                 }
                                 System.out.println("Your pet's name is: " + name);
 
-                                int healthMax = r.nextInt(5, 8);
-                                int foodMax = r.nextInt(5, 8);
-                                int energyMax = 20 - healthMax - foodMax;
+                                int[] petStats = generateStats();
 
-                                System.out.print("STATS:\nMax health: " + healthMax + ("\nMax food: " + foodMax + "\nMax energy: " + energyMax));
+                                System.out.print("STATS:\nMax health: " + petStats[0] + ("\nMax food: " + petStats[1] + "\nMax energy: " + petStats[2]));
 
                                 animalCreated = true;
                                 break;
@@ -256,8 +297,8 @@ public class VirtualPet {
                         moneyCount = numberGame() * 100;
                         System.out.println("You have earned $" + moneyCount + " so far.");
 
-                        // Letter pairs
-                        moneyCount = moneyCount + letterPairs() * 100;
+                        // Letter pair game
+                        moneyCount = moneyCount + makeRandWord() * 100;
                         System.out.println("Thank you for playing, you earned $" + moneyCount + ".");
                     }
                     break;
