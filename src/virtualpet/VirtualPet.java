@@ -174,9 +174,22 @@ public class VirtualPet {
         return generatedStats;
     }
 
-    public static void createSaveFile(String[] stats) throws Exception {
-
+    public static void addStat(File userFile, String stat) throws Exception {
+        PrintWriter toFile = new PrintWriter (userFile);            
+        toFile.println(stat);
+        toFile.close();
     }
+    
+    public static void addStat(File userFile, int stat) throws Exception {
+        PrintWriter toFile = new PrintWriter (userFile);            
+        toFile.println(stat);
+        toFile.close();
+    }
+    public static void addStat(File userFile, int[] stat) throws Exception {
+        PrintWriter toFile = new PrintWriter (userFile);            
+        toFile.println(stat.toString());
+        toFile.close();
+    }    
 
 
     /*
@@ -236,11 +249,9 @@ public class VirtualPet {
                     }
 
                 } catch (Exception e) {
-                    PrintWriter toFile = new PrintWriter (userFile);
                     
                     password = JOptionPane.showInputDialog("Enter new password:");
-                    
-                    
+                    addStat(userFile, password);
                 }
             }
         }
