@@ -57,7 +57,7 @@ public class VirtualPet {
 
         int randNum = r.nextInt(0, 11);
         int points = 0;
-        System.out.println("Enter your guesses:");
+        System.out.println("NUMBER GUESSING GAME\nEnter your guesses:");
 
         // The user has 10 guesses to guess the number before the game ends
         for (int i = 0; i < 11; i++) {
@@ -116,7 +116,7 @@ public class VirtualPet {
             }
         }
 
-        System.out.println("Enter your guesses in the format of (x,y):");
+        System.out.println("PAIR GUESSING:\nEnter your guesses in the format of (x,y):");
 
         // 12 guessed to guess the correct pairings
         for (int i = 0; i < 13; i++) {
@@ -174,6 +174,7 @@ public class VirtualPet {
         return generatedStats;
     }
 
+    // methods to add stats to the file
     public static void addStat(File userFile, String stat) throws Exception {
         PrintWriter toFile = new PrintWriter (userFile);            
         toFile.println(stat);
@@ -215,6 +216,11 @@ public class VirtualPet {
         Scanner kb = new Scanner(System.in);
         Random r = new Random();
 
+        int[] petStats = new int[3];
+        int[] currStats = new int[3];
+        
+        int gameCount = 0;;
+        
         /*
         ----MAIN CODE------------------------------------------------------------------------------------------------------------------------------
          */
@@ -293,7 +299,7 @@ public class VirtualPet {
                                 }
                                 System.out.println("Your pet's name is: " + name);
 
-                                int[] petStats = generateStats();
+                                petStats = generateStats();
 
                                 System.out.print("STATS:\nMax health: " + petStats[0] + ("\nMax food: " + petStats[1] + "\nMax energy: " + petStats[2]));
 
@@ -311,6 +317,7 @@ public class VirtualPet {
                         // Letter pair game
                         moneyCount = moneyCount + makeRandWord() * 100;
                         System.out.println("Thank you for playing, you earned $" + moneyCount + ".");
+                        gameCount += 1;
                     }
                     break;
                 case "2":
@@ -319,6 +326,14 @@ public class VirtualPet {
                     break;
                 case "3":
                 case "Exit":
+                    
+                    addStat (userFile,animal);
+                    addStat (userFile,petStats);
+                    addStat (userFile,currStats);
+                    addStat (userFile,moneyCount);
+                    
+                    System.out.println("Day summary:\nPet - "+animal+"\nTimes played: "+gameCount);
+                    
                     exitCase = true;
                     break;
             }
