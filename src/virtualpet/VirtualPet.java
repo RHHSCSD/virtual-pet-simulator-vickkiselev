@@ -106,6 +106,7 @@ public class VirtualPet {
                 continue;
             }
         }
+        
         while (randWord.length() < 10) {
             int randInt = r.nextInt(0, 5);
             char randChar = baseWord.charAt(randInt);
@@ -240,6 +241,7 @@ public class VirtualPet {
         username = JOptionPane.showInputDialog("Enter username:");
         File userFile = new File(username + ".txt");
 
+        // if the user's file exists, summon the password and check if it is correct
         if (userFile.exists() == true) {
             animalCreated = true;
             for (int i = 0; i < 3; i++) {
@@ -261,8 +263,10 @@ public class VirtualPet {
                 }
             }
         }
-
+        
+        // while the user hasn't exited the game, run this loop
         while (exitCase == false) {
+            // if an animal has not been created, show the following options, if it has, give the option to play with it
             if (animalCreated == false) {
                 System.out.println("\n         1. START   2. INSTRUCTIONS  3. EXIT\n");
                 System.out.print("Enter next action: ");
@@ -278,6 +282,7 @@ public class VirtualPet {
                 case "Play":
                 case "Interact":
                     if (animalCreated == false) {
+                        // have user select their pet animal and name it
                         System.out.println("Choose an animal:\nCat\nBudgie\nRaccoon");
                         animal = kb.nextLine();
                         System.out.print("Are you certain? ");
@@ -299,6 +304,7 @@ public class VirtualPet {
                                 }
                                 System.out.println("Your pet's name is: " + name);
 
+                                // generate and print the random stats 
                                 petStats = generateStats();
 
                                 System.out.print("STATS:\nMax health: " + petStats[0] + ("\nMax food: " + petStats[1] + "\nMax energy: " + petStats[2]));
@@ -326,7 +332,7 @@ public class VirtualPet {
                     break;
                 case "3":
                 case "Exit":
-                    
+                    // add all stats at end of session to the user's file
                     addStat (userFile,animal);
                     addStat (userFile,petStats);
                     addStat (userFile,currStats);
